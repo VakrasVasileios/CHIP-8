@@ -1,7 +1,7 @@
 #include "cpu.hpp"
 #include <stdlib.h>
 
-Cpu::Cpu() : memory(_memory), I(0), PC(0){
+Cpu::Cpu() : bus(_bus), I(0), PC(0){
 
     // 6XNN const Vx = NN
     opcode[8] = [](uint16_t _opcode) {
