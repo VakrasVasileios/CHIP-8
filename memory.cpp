@@ -24,7 +24,7 @@ Memory::GetDisplayRefresh() {
 }
 
 void
-Memory::ChangeStackPointer(int num) {
+Memory::ChangeSP(int num) {
     stack_pointer += num;
 }
 
