@@ -1,6 +1,8 @@
 #include "cpu.hpp"
+#include <stdlib.h>
 
-Cpu::Cpu() : memory(_memory) {
+Cpu::Cpu() : memory(_memory), I(0), PC(0){
+
     // 6XNN const Vx = NN
     opcode[8] = [](uint16_t _opcode) {
         register[_opcode & 0x0f00] = _opcode & 0x00ff;
@@ -35,7 +37,7 @@ Cpu::Cpu() : memory(_memory) {
     };
     // 8XY6 bitop Vx >>= Vy
     opcode[16] = [](uint16_t _opcode) {
-        register[15] = register[_opcode & 0x0f00] & 1;
+        register[15] = register[_opcode & 0x0f00] & 1;          // store least significant bit to VF
         register[_opcode & 0x0f00] >>= 1;
     };
     // 8XY7  math Vx = Vy - Vx
@@ -44,8 +46,22 @@ Cpu::Cpu() : memory(_memory) {
     };
     // 8XYE bitop Vx <<= Vy
     opcode[18] = [](uint16_t _opcode) {
-        register[15] = register[_opcode & 0x0f00] & (1 << 7);
+        register[15] = register[_opcode & 0x0f00] & (1 << 7);   // store most significant bit to VF
         register[_opcode & 0x0f00] <<= 1;
+    };
+    // 9XY0 cond if(Vx != Vy)
+
+    // ANNN mem I = NNN
+    opcode[20] = [](uint16_t _opcode) {
+        I = _opcode & 0X0FFF;
+    };
+    // BNNN flow PC = V0 + NNN
+    opcode[21] = [](uint16_t _opcode) {
+        PC = register[0] + (_opcode & 0x0FFF);
+    };
+    // CXNN rand Vx = rand() & NN
+    opcode[22] = [](uint16_t _opcode) {
+        register[_opcode & 0x0F00] = (rand() % 256) & (_opcode & 0x00FF);
     };
 }
 
