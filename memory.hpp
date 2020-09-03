@@ -21,5 +21,8 @@ public:
     void        IncreaseStackPointer() { stack_pointer++; }
     uint8_t*    GetStack();
     uint8_t*    GetDisplayRefresh();
+
+    void        StoreTo(uint16_t _address, uint8_t _data);
+    uint8_t     LoadFrom(uint16_t _address);
 };
 
