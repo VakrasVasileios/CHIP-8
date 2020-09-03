@@ -24,6 +24,11 @@ Memory::GetDisplayRefresh() {
 }
 
 void
+Memory::ChangeStackPointer(int num) {
+    stack_pointer += num;
+}
+
+void
 Memory::StoreTo(uint16_t _address, uint8_t _data) {
     memory[_address] = _data;
 }
