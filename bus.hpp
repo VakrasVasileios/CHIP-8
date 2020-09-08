@@ -7,7 +7,7 @@ class Bus {
 private:
     Memory* memory;
 public:
-    Bus();
+    Bus(Memory* _memory);
     ~Bus();
 
     uint8_t    FetchFrom(uint16_t _address);

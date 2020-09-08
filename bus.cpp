@@ -1,6 +1,6 @@
 #include "bus.hpp"
 
-Bus::Bus() : memory(_memory) {}
+Bus::Bus(Memory* _memory) : memory(_memory) {}
 
 Bus::~Bus() {
 
