@@ -1,6 +1,6 @@
 #include "bus.hpp"
 
-Bus::Bus(Memory* _memory) : memory(_memory) {}
+Bus::Bus(Memory* _memory, Display* _display) : memory(_memory), display(_display) {}
 
 Bus::~Bus() {
 
@@ -14,4 +14,9 @@ Bus::FetchFrom(uint16_t _address) {
 void
 Bus::SendTo(uint16_t _address, uint8_t _data) {
     memory->StoreTo(_address, _data);
+}
+
+void
+Bus::ClearDisplay() {
+    display->ClearPixelArray();
 }
