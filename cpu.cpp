@@ -1,9 +1,28 @@
 #include <stdlib.h>
 #include "cpu.hpp"
 
-Cpu::Cpu(Memory* _memory) {
-    bus = Bus(_memory);
+Cpu::Cpu(Memory* _memory, Display* _display) {
+    bus = Bus(_memory, _display);
 
+    // 00E0 display clear display
+    opcode[0] = [&bus]() {
+        bus->ClearDisplay();
+    };
+    // 00EE flow return
+    opcode[1] = [&, bus, sp, PC]() {
+        *PC = bus->FetchFrom(STACK(*sp));
+        *(sp--);
+    };
+    // 1NNN flow goto NNN
+    opcode[2] = []() {
+
+    };
+    // 2NNN flow *(0x0NNN)()
+    opcode[3] = [&, sp, PC, bus](uint16_t _opcode) {
+        *sp++;
+        bus->SendTo(STACK(*sp), *PC);
+        *PC = _opcode & 0x0fff;
+    };
     // 6XNN const Vx = NN
     opcode[8] = [&registers](uint16_t _opcode) {
         registers[(_opcode & 0x0f00)] = _opcode & 0x00ff;

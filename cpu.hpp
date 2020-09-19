@@ -7,15 +7,16 @@
 class Cpu {
 
 private:
-    std::function<void(uint16_t)>* opcode[35];
+    std::function<void(uint16_t)>* opcode[34];
 
     uint8_t     registers[16];
-    uint16_t    I = 0;
-    uint        PC = 0;
+    uint16_t    I = 0;              // 16bit register for memory address
+    uint        PC = 0;             // program counter
+    uint        sp = 0;             // stack pointer index
 
     Bus         bus;
-    
+
 public:
-    Cpu(Memory* _memory);
+    Cpu(Memory* _memory, Display* _display);
     ~Cpu();
 };
