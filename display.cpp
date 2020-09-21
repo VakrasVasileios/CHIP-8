@@ -26,7 +26,7 @@ Display::ChangeDisplay(ALLEGRO_BITMAP* _bitmap) {
     al_draw_bitmap(_bitmap, 0, 0, 0);    
 }
 
-bool*
+void
 Display::ClearPixelArray() {
     pixel_array = 0x0000;
 }
